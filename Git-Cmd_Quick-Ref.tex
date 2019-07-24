@@ -1,0 +1,426 @@
+%\documentclass[12pt, letterpaper, journal, draftclsnofoot, technotes]{IEEEtran}
+\documentclass[12pt, letterpaper, journal, draftclsnofoot, technote, onecolumn]{IEEEtran}
+\usepackage{!sty/SBNart}
+\usepackage{!sty/SBNsh}
+
+\setlength{\columnsep}{0.5cm}
+\setlength{\columnseprule}{0.5pt}
+
+\newcommand{\HdrL}{\textcopyright{\normalfont\the\year~Dr.~Behzad~Nouri}}
+\newcommand{\HdrC}{ \normalfont Git CmdRef}
+
+\newcommand{\ttl}[1]{\vspace{4pt}\noindent \underline{\textbf{#1}:}\par}
+\newcommand{\git}[1]{\noindent{\color[rgb]{0,0,1}{\texttt{\emph{git~#1}}}}\hspace{4pt}}
+\newcommand{\cmd}[1]{\noindent{\color[rgb]{0,0,1}{\texttt{\emph{#1}}}}\hspace{4pt}}
+%-------------------------------------------------------------------------------
+\begin{document}
+%===============================================================================
+\begin{center} \large \textbf{Git Cheat-sheet} \end{center} \vspace{-16pt}
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Initial set-up}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent Initial configuration of a new Git installation: 
+
+\git{config} \hspace{1pc} 
+{\small Set-ups Git for the first time}
+
+\git{config user.name ``your name''} \hspace{1pc}
+{\small Configures git to recognize you Locally}
+
+\git{config ---global user.name ``your name''} \hspace{1pc}
+{\small Configures git to recognize you Globally}
+
+\git{config ---global user.email ``your email''} \hspace{1pc}
+{\small ``}
+	
+\git{---list}\hspace{1pc}
+{\small Lists all the configuration values}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Checkings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\git{---version}\hspace{1pc}
+{\small Checks if git has been installed}
+
+\git{config user.name}\hspace{1pc}
+{\small Shows who it is configured to}
+
+\git{config user.email}\hspace{1pc}
+{\small Shows the email associated to git}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Help}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\git{help}\hspace{1pc}
+{\small Shows the 21 most common git commands or}
+
+\git{help <command>}\hspace{1pc}
+{\small Give more specific help about <command>}
+
+\git{<command> ---help}\hspace{1pc}{\small ``}
+
+\noindent e.g.:~\git{help init}\\
+\mbox{~~~~~~}\git{config ---help}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{List / Dir}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent{\small If see a hidden dir ``.git'' \& file ``.gitignore'', it's already a repo!}
+
+\cmd{ls}\hspace{1pc}
+{\small Shows all files \& subdirs in the directory}
+
+\cmd{ls -la} \hspace{1pc}
+{\small Shows everything including hidden}
+{\small (If see a hidden dir ``.git'' \& file ``.gitignore'', it's already a repo)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Create Repo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\git{init}   \hspace{1pc}
+{\small Execute this in the project directory xx}
+
+\git{init xx} \hspace{1pc}
+{\small Creates a new Git repo xx}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Status}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\git{status}\hspace{1pc}
+{\small Checks the current state of repo}\\
+\git{status <file>}\hspace{1pc}
+{\small Checks state of specific file}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Delete Repo}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmd{rm -rf .git}\hspace{1pc}
+{\small Removes the git repository}
+
+\noindent {\small Running this inside a repository removes ``.git'' and makes the directory un-track-able (un-git). Win-users can equivalently delete ``.git'' using file-explorer.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ttl{Stage-ing}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\git{add <file>}  \hfill Adds <file> to ``\emph{staging area}''\\
+\mbox{}\hfill({\small Staged files are ready to be committed.})\\
+e.g.:~~~\git{add *.txt}\\
+\git{add -A~\textbf{{\large.}}~}\hfill Adds everything in and beneath\\
+\mbox{}\hfill(Important: use capital A) 
+
+
+
+%===============================================================================
+\begin{center} \HL
+	{\normalsize \textbf{Erasing, etc.}}\\[-12pt]
+	\HL \end{center} \vspace*{-16pt}
+%===============================================================================
+\ttl{Add gitignore file}
+\cmd{touch .gitignore} \hspace{3pc}
+{\small to create a ``\textit{.gitignore}'' txt file
+This file can be edited and to each line we can specify the (type of) files that we do not want the to stage. (See Appendix~\ref{app:ignore-cmd})}
+
+\ttl{Reset}
+\git{reset <file> } \hspace{3pc}
+{\small removes file(s) from the staging area \& brings it back to the working-area}
+\git{reset}\hspace{3pc}
+{\small resets every modified file in working-space to its latest commit.\hfill {\color{red}\emph{(you may lose all the changes.)}}}
+
+\ttl{Unstage}
+\git{rm --cached index.html} \hspace{3pc}  {\small(to un-stage the file index.html)}
+
+\git{checkout --- index.html} \hspace{3pc}  {\small(to discard all the changes in index.html file)}
+%===============================================================================
+\begin{center} \HL
+	{\normalsize \textbf{Differences~/~Comparing}}\\[-12pt]
+	\HL \end{center} \vspace*{-16pt}
+%===============================================================================
+
+
+\ttl{Differences}
+\git{diff} \hspace{3pc} {\small shows differences:~~~~Working-Directory~<--vs-->~Staging-Area}\\
+\git{diff index.html}
+\git{diff ---staged} Shows differences:\\
+\centerline{Just-Staged~<--vs.-->~Last-Commits}
+(a.k.a. ``Head'')\\
+\git{diff HEAD} Shows differences:\\
+\centerline{Working-Area~<---vs.--->~Last-Commit} 
+%
+%
+%===============================================================================
+\begin{center} \HL
+	{\normalsize \textbf{Committing}}\\[-12pt]
+	\HL \end{center} \vspace*{-16pt}
+%===============================================================================
+\ttl{Commit}
+\git{commit --a}\\
+\git{commit} commits all the file in the staged area and asks for the comment\par
+\git{commit -m ``Message goes here.''} 
+%%\hfill e.g.:\\ \git{commit -m 'initial project version'}\\
+\mbox{} \hfill Switch '-m' adds a message to the commit\par 
+%
+\ttl{Logging/History}
+\git{log} creates a log of history
+%
+%
+%===============================================================================
+\begin{center} \HL
+	{\normalsize \textbf{Create Branch}}\\[-12pt]
+	\HL \end{center} \vspace*{-16pt}
+%===============================================================================
+%
+\ttl{Branch}
+\git{branch -a}\\
+\mbox{}\hfill Shows both remote \& local branches\\
+\git{branch <new-branch-name>}\\
+\mbox{}\hfill Create a new (local) branch\\
+\git{checkout <branch-name>}\\
+\mbox{}\hfill Switches to <branch-name>\\
+\git{checkout -b <new-branch-name>}\\
+\mbox{}\hfill Creates a new-branch \& checkouts\\
+\git{reflog}\hfill Views the history of checkouts\\
+\git{branch -d <branch-name>}\\
+\mbox{}\hfill Delete this branch, This do not delete if branch has unmerged changes.\\
+\git{branch -D <branch-name>}\\
+\mbox{}\hfill Force delete this branch, even if it has unmerged changes.\\
+\git{branch -m <branch-new-name>}\\
+\mbox{}\hfill Rename the current branch to branch-new-name.
+%===============================================================================
+\begin{center}
+	\HL
+	{\normalsize \textbf{Remote Repository} (Git-Hub)}\\[-12pt]
+	\HL
+\end{center}
+\vspace*{-16pt}
+%===============================================================================
+\noindent \textbf{-} log-in to:~~\url{https://github.com}\\
+\noindent \textbf{-} Create a remote repository in\\ \hfill {\url{https://github.com/YourGit/Git-cmdref.git}}\\
+\noindent \textbf{-} \git{remote add origin\\ https://github.com/YourGit/Git-cmdref.git}
+
+
+\ttl{Removing Remote URL}
+\git{remote -v} views the current remote\\
+\git{remote rm} removes a remote URL from your repository\\
+\git{remote rm master}
+
+
+\ttl{Pushing}
+\git{push -u origin master}\\
+\mbox{}\hfill Sends local changes to remote repository (\emph{origin})
+
+\ttl{Pulling}
+\git{pull origin master} Pull down any new changes (by collaborators etc.) from the remote repo 
+
+\ttl{Branch}
+\git{branch -a}\\
+\mbox{}\hfill Shows both remote \& local branches\\
+\git{branch -r} \hfill Shows remote branches \\
+\git{checkout origin}\\
+\git{checkout <remotebranch>}
+%
+%
+%
+%===============================================================================
+\begin{center}
+	\HL
+	{\normalsize \textbf{Summary}}\\[-12pt]
+	\HL
+\end{center}
+\vspace*{-16pt}
+%===============================================================================
+\ttl{Example}
+\cmd{echo "\# Git-Help-LaTeX" >> README.md}\par
+\git{init}\par
+\git{add README.md}\par
+\git{commit -m "first commit"}\par
+\git{remote add origin https://github.com/BehN/Git-Help-LaTeX.git}\par
+\git{push -u origin master}\par
+
+
+\begin{comment}
+\vspace{8pt}
+\noindent \textbf{Differences:}\par
+Uh oh, looks like there have been some additions and changes to the cat family. Let's take a look at what is different from our last commit by using the git diff command. In this case we want the diff of our most recent commit, which we can refer to using the HEAD pointer.
+\par
+\texttt{git diff HEAD}\par
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{Staged Differences:}\par
+Another great use for diff is looking at changes within files that have already been staged. Remember, staged files are files we have told git that are ready to be committed. Let's use git add to stage octofamily\/octodog.txt, which I just added to the family for you.
+\par
+\texttt{git add octofamily/octodog.txt}\par
+%
+Good, now go ahead and run git diff with the --staged option to see the changes you just staged. You should see that octodog.txt was created.\par
+\texttt{git diff --staged}\par
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{Resetting the Stage:}\par
+So now that octodog is part of the family, cat is all depressed. Since we love cat more than octodog, we'll turn his frown around by removing octodog.txt.\\
+You can unstage files by using the git reset command. Go ahead and remove octofamily/octodog.txt.
+git reset octofamily\/octodog.txt\par
+\texttt{git reset octofamily/octodog.txt}\par
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{Undo:}\par
+git reset did a great job of unstaging octodog.txt, but you'll notice that he's still there. He's just not staged anymore. It would be great if we could go back to how things were before octodog came around and ruined the party.\\
+%
+Files can be changed back to how they were at the last commit by using the command: git checkout -- <target>. Go ahead and get rid of all the changes since the last commit for cat.txt\par
+\texttt{git checkout -- cat.txt}\\[8pt]
+%
+%
+%
+
+%
+%
+\vspace{8pt}
+\noindent \textbf{Removing All The Things:}\par
+Ok, so you're in the clean\_up branch. You can finally remove all those pesky cats by using the git rm command which will not only remove the actual files from disk, but will also stage the removal of the files for us.\\
+%
+You're going to want to use a wildcard again to get all the cats in one sweep, go ahead and run:\par
+\texttt{git rm '*.txt'}\par
+%
+%
+Removing one file is great and all, but what if you want to remove an entire folder? You can use the recursive option on git rm:\par
+\texttt{git rm -r folder\_of\_cats}\\
+%
+%
+This will recursively remove all folders and files from the given directory.\par
+%
+\vspace{8pt}
+\noindent \textbf{Committing Branch Changes:}\par
+Now that you've removed all the cats you'll need to commit your changes.\\
+%
+Feel free to run git status to check the changes you're about to commit.\par
+\texttt{git commit -m "Remove all the cats"}\par
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{Switching Back to master:}\par
+Great, you're almost finished with the cat... er the bug fix, you just need to switch back to the master branch so you can copy (or merge) your changes from the clean\_up branch back into the master branch.\\
+%
+Go ahead and checkout the master branch:\par
+\texttt{git checkout master}\par
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{Preparing to Merge:}\par
+Alrighty, the moment has come when you have to merge your changes from the clean\_up branch into the master branch. Take a deep breath, it's not that scary.\\
+%
+We're already on the master branch, so we just need to tell Git to merge the clean\_up branch into it:\\
+\texttt{git merge clean\_up}\par
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{Keeping Things Clean}\par
+Congratulations! You just accomplished your first successful bugfix and merge. All that's left to do is clean up after yourself. Since you're done with the clean\_up branch you don't need it anymore.\\
+%
+You can use git branch -d <branch name> to delete a branch. Go ahead and delete the clean\_up branch now:\par
+%
+\texttt{git branch -d clean\_up}\par
+%
+%
+%
+
+%
+%
+%
+\vspace{8pt}
+\noindent \textbf{git merge:}\par
+When you’re done working on a branch, you can merge your changes back to the master branch, which is visible to all collaborators. git merge cats would take all the changes you made to the “cats” branch and add them to the master.\par
+\texttt{git merge}\par
+\end{comment}
+%
+%
+
+%==============================================================================
+% Biblio:
+%\bibliography{nouri}
+%==============================================================================
+%
+%
+\newpage
+%-------------------------------------------------------------------------------
+% % Appendices:
+%%\appendix
+\appendices
+%-------------------------------------------------------------------------------%
+%
+
+
+\appendices
+%\begin{comment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%              Appendix: My webpage at  ``bnouri.com''                    %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sample of How to navigate:\\ Clone from GitHub:~$\rightarrow$~Edit~$\rightarrow$~Commit~$\rightarrow$~Push to GitHub}
+\label{app:edit-web-github}
+\ttl{How to colone:}
+\begin{itemize}[label=\textbf{--}]
+	\item \cmd{go to GitHub}
+	\item \cmd{go to Repositories}~$\rightarrow$~\cmd{click on ``personalWebPage''}
+	\item \cmd{click on Clone-or-download}~$\rightarrow$~\cmd{Copy the web URL}\\
+	 \mbox{}\hfill {\small e.g.: \verb!''https://github.com/personalWebPage.git''!}
+	\item \cmd{go to ``Z:\textbackslash code''}
+	\item \cmd{right click~$\rightarrow$~click on: ``Git Bash here!''}
+	\item \cmd{git clone https://github.com/personalWebPage.git}
+\end{itemize}
+{\small As a result, the diectory ``personalWebPage'' is created containing a copy of git-repository. This new directory is not a git repo yet!}	
+
+\begin{itemize}[label=\textbf{--}]	
+	\item \git{config --global user.name "John Doe"}
+	\item \git{git config --global user.email you@email.com}
+\end{itemize}
+{\small To be done only once for your git installation!}	
+
+\ttl{How to make a branch:}
+\begin{itemize}[label=\textbf{--}]
+	\item \cmd{ls}
+	\item \cmd{cd personalWebPage}
+	\item \git{checkout –b dev}   \hspace{3pc}{\small(makes a new local branch, 'dev')}
+	\item \git{branch}             \hspace{3pc}{\small(to show the existing branches, the active one is in green)}
+	\item \git{checkout dev}       \hspace{3pc}{\small(switched git to the new local branch 'dev')}
+\end{itemize}
+After applying required edittings,\\[12pt]
+\ttl{How to stage and commit:}
+\begin{itemize}[label=\textbf{--}]
+	\item \git{add ---a}
+	\item \git{status}   \hspace{3pc}{\small(check status on branch dev)}
+    \item \git{commit -m "your commit note goes here!"}
+
+\end{itemize}
+
+
+\ttl{How to push the branch to GitHub:}
+\begin{itemize}[label=\textbf{--}]
+	\item \cmd{go to Git-Hub}~$\rightarrow$~\cmd{create pull request}
+	\item \git{push origin dev}    \hspace{3pc}{\small(push 'dev' to the remote, it is created if is not exist)}
+\end{itemize}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%              Appendix: script for making .gitignore                     %%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Batch-file (*.cmd) to Create \texttt{.gitignore}}
+\label{app:ignore-cmd}
+This is a simple windows script (batch file) that can be used to generate a sample (and fairly complete) \texttt{.gitignore}. Both the following script  and \texttt{.gitignore} from it can be edited to customize it with your need. 
+%
+%
+\texttt{WrtGitIgnore.cmd}:
+\begin{singlespace}
+	\lstinputlisting{Git/WrtGitIgnore.cmd}
+\end{singlespace}
+
+%----------------------------------------------------------------------------- 
+\end{document}
+
